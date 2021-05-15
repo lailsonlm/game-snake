@@ -2,7 +2,7 @@
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
 let box = 16;
-
+let sizeContext = 32
 // Criação da Cobrinha
 let snake = [];
 snake[0] = {
@@ -16,7 +16,7 @@ let direction = "right"
 
 function createBG() {
     context.fillStyle = "lightgreen";
-    context.fillRect(0, 0, 32 * box, 32 * box);
+    context.fillRect(0, 0, sizeContext * box, sizeContext * box);
 }
 
 function createSnake() {
@@ -26,10 +26,24 @@ function createSnake() {
     }
 }
 
-function startGame() {
-    createBG()
-    createSnake()
+// Definir direção
+document.addEventListener('keydown', update);
 
+function update(event) {
+    if(event.code == "ArrowLeft" && direction != "right") {
+        direction = "left";
+    } else if(event.code == "ArrowUp" && direction != "down") {
+        direction = "up";
+    } else if(event.code == "ArrowRight" && direction != "left") {
+        direction = "right";
+    } else if(event.code == "ArrowDown" && direction != "up") {
+        direction = "down";
+    }
+
+}
+
+//Definir Movimentos
+function snakeMovements() {
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
@@ -43,8 +57,6 @@ function startGame() {
         snakeY += box;
     }
 
-    //"Fazer a cobrinha andar"
-    
     // Remover o último elemento do array
     snake.pop();
 
@@ -53,9 +65,30 @@ function startGame() {
         x: snakeX,
         y: snakeY
     }
-
     snake.unshift(newHead);
 }
+
+// Definir limitador de tela para cobrir. Se ultrapassar ela retorna do lado oposto
+function canvasLimit() {
+    if(snake[0].x > sizeContext * box && direction =="right") {
+        snake[0].x = 0;
+    } else if(snake[0].x < 0 && direction =="left") {
+        snake[0].x = sizeContext * box;
+    } else if(snake[0].y > sizeContext * box && direction=="down") {
+        snake[0].y = 0;
+    } else if(snake[0].y < 0 && direction == "up") {
+        snake[0].y = sizeContext * box;
+    }
+}
+
+// Iniciar Jogo
+function startGame() {
+    createBG()
+    createSnake()
+    snakeMovements()
+    canvasLimit()
+}
+
 
 // Rodar a função startGame a cada 100ms
 let game = setInterval(startGame, 100)
