@@ -68,8 +68,14 @@ function snakeMovements() {
         snakeY += box;
     }
 
-    // Remover o último elemento do array
-    snake.pop();
+    // Remover o último elemento do array, caso coma a comida ela aumenta o tamanho e adiciona a comida em outro local
+    if(snakeX != food.x || snakeY != food.y) {
+        snake.pop();
+    } else {
+        food.x = Math.floor(Math.random() * sizeContext) * box;
+        food.y = Math.floor(Math.random() * sizeContext) * box;
+    }
+    
 
     // Adiciona um elemento no início do array
     let newHead = {
@@ -81,14 +87,14 @@ function snakeMovements() {
 
 // Definir limitador de tela para cobrir. Se ultrapassar ela retorna do lado oposto
 function canvasLimit() {
-    if(snake[0].x > sizeContext * box && direction =="right") {
+    if(snake[0].x > (sizeContext-1) * box && direction =="right") {
         snake[0].x = 0;
     } else if(snake[0].x < 0 && direction =="left") {
-        snake[0].x = sizeContext * box;
-    } else if(snake[0].y > sizeContext * box && direction=="down") {
+        snake[0].x = (sizeContext-1) * box;
+    } else if(snake[0].y > (sizeContext-1) * box && direction=="down") {
         snake[0].y = 0;
     } else if(snake[0].y < 0 && direction == "up") {
-        snake[0].y = sizeContext * box;
+        snake[0].y = (sizeContext-1) * box;
     }
 }
 
