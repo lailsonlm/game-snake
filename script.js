@@ -140,6 +140,5 @@ function startGame() {
 const game = setInterval(startGame, 100)
 
 function restartGame() {
-    console.log('reiniciou')
     document.location.reload(false);    
 }
