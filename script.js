@@ -72,6 +72,7 @@ function snakeMovements() {
     if(snakeX != food.x || snakeY != food.y) {
         snake.pop();
     } else {
+        calculateScore();
         food.x = Math.floor(Math.random() * sizeContext) * box;
         food.y = Math.floor(Math.random() * sizeContext) * box;
     }
@@ -98,14 +99,21 @@ function canvasLimit() {
     }
 }
 
-// Iniciar Jogo
-function startGame() {
-    createBG()
-    createSnake()
-    drawFood()
-    snakeMovements()
-    canvasLimit()
-    endGame()
+// Pontuação
+let score = 0;
+
+let scoreHtml = document.getElementById('score-tot');
+
+function calculateScore() {
+    let bestScore = 0;
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    if(snakeX == food.x || snakeY == food.y) {
+        score++;
+        bestScore++;
+        scoreHtml.innerHTML = score;
+    }
 }
 
 // Encerrar Jogo
@@ -118,7 +126,20 @@ function endGame() {
     }
 }
 
+// Iniciar Jogo
+function startGame() {
+    createBG()
+    createSnake()
+    drawFood()
+    snakeMovements()
+    canvasLimit()
+    endGame()
+}
+
 // Rodar a função startGame a cada 100ms
-let game = setInterval(startGame, 100)
+const game = setInterval(startGame, 100)
 
-
+function restartGame() {
+    console.log('reiniciou')
+    document.location.reload(false);    
+}
