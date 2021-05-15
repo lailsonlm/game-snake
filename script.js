@@ -2,7 +2,7 @@
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
 let box = 16;
-let sizeContext = 32
+let sizeContext = 32;
 
 // Criação da Cobrinha
 let snake = [];
@@ -105,6 +105,17 @@ function startGame() {
     drawFood()
     snakeMovements()
     canvasLimit()
+    endGame()
+}
+
+// Encerrar Jogo
+function endGame() {
+    for(i = 1; i < snake.length; i++) {
+        if(snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+            clearInterval(game);
+            alert('Game Over')
+        }
+    }
 }
 
 // Rodar a função startGame a cada 100ms
