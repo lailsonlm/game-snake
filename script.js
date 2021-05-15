@@ -3,6 +3,7 @@ let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
 let box = 16;
 let sizeContext = 32
+
 // Criação da Cobrinha
 let snake = [];
 snake[0] = {
@@ -13,6 +14,11 @@ snake[0] = {
 // Direção
 let direction = "right"
 
+// Criação da comida
+let food = {
+    x: Math.floor(Math.random() * sizeContext) * box,
+    y: Math.floor(Math.random() * sizeContext) * box
+}
 
 function createBG() {
     context.fillStyle = "lightgreen";
@@ -24,6 +30,11 @@ function createSnake() {
         context.fillStyle = 'green'
         context.fillRect(snake[i].x, snake[i].y, box, box)
     }
+}
+
+function drawFood() {
+    context.fillStyle = 'red';
+    context.fillRect(food.x, food.y, box, box)
 }
 
 // Definir direção
@@ -85,10 +96,10 @@ function canvasLimit() {
 function startGame() {
     createBG()
     createSnake()
+    drawFood()
     snakeMovements()
     canvasLimit()
 }
-
 
 // Rodar a função startGame a cada 100ms
 let game = setInterval(startGame, 100)
